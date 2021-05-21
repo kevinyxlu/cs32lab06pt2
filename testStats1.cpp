@@ -20,7 +20,7 @@ int main() {
   ASSERT_EQUALS(meanX, 41.167);
   //TODO fill in!!!
   ASSERT_EQUALS(stdDevX, 15.753); // used sample standard deviation
-  ASSERT_EQUALS(meanY, 81.000);
+  ASSERT_EQUALS(meanY, 81.0);
   ASSERT_EQUALS(stdDevY, 11.454); // used sample standard deviation
 
   return 0;
