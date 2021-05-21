@@ -32,12 +32,12 @@ int main() {
   //use visitor pattern to be able to aggregate
   statTool::createCountyData(pileOfData, theCounties);
 
-  theCounties.printAllCombo(&demogData::getBelowPovertyCount, &psCombo::getNumberOfCases);
+  theCounties.printAllCombo(&demogData::getCountPoverty, &psCombo::getNumberOfCases);
 
   vector<double> dataX;
   vector<double> dataY;
 
-  statTool::gatherCountStats(&theCounties, dataX, dataY, &demogData::getBelowPovertyCount, &psCombo::getNumberOfCases);
+  statTool::gatherCountStats(&theCounties, dataX, dataY, &demogData::getCountPoverty, &psCombo::getNumberOfCases);
 
   double mX = stats::computeMean(dataX); 
   double mY = stats::computeMean(dataY);  
