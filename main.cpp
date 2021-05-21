@@ -14,15 +14,16 @@ int main() {
     /*//Deboog output
     ofstream myfile;
     myfile.open("output.txt");*/
-    dataAQ theAnswers;
+    //dataAQ theAnswers;
 
-    //read in a csv file and create a vector of objects representing each counties data
-    std::vector<shared_ptr<regionData>> theDemogData = read_csv(
-            "county_demographics.csv", DEMOG);
+    // create one large shared vector of raw data
+    vector<shared_ptr<regionData>> pileOfData;
 
-    std::vector<shared_ptr<regionData>> thePoliceData = read_csv(
-            "police_shootings_cleaned.csv", POLICE);
+    // read in the police data
+    read_csv(pileOfData, "police_shootings_cleaned.csv", POLICE);
 
+    // read in the demographic data
+    read_csv(pileOfData, "county_demographics.csv", DEMOG);
     
     /*//Deboog print 
     for (auto obj : theDemogData) {
@@ -32,6 +33,11 @@ int main() {
         myfile << *dynamic_pointer_cast<psData>(obj) << std::endl;
     }
     */
+
+
+/*
+
+
     std::vector<shared_ptr<demogData>> castedDemogData;
     std::vector<shared_ptr<psData>> castedPoliceData;
     for (auto entry : theDemogData) {
@@ -45,6 +51,12 @@ int main() {
     //cout << theAnswers << endl;
 
     theAnswers.comboReport(92);
+
+
+*/
+
+
+
 
     //myfile.close();
     /*

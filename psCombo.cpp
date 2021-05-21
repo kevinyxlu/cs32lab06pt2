@@ -31,6 +31,44 @@ psCombo::psCombo(string inS, vector<shared_ptr<psData>> inPSData) : regionData(i
     racialData.addCommunityCount(numCases + whiteCount);
 }
 
+psCombo::psCombo(string inS, shared_ptr<psData> inPSData) : regionData(inS, inS)
+{
+        if (inPSData->getState() == inS) {
+            if (inPSData->getSignsMIll()) numMentalIllness++;
+            if (inPSData->getFlee() != "Not fleeing" && inPSData->getFlee().length()) fleeingCount++;
+            if (inPSData->getAge() >= 65) casesOver65++;
+            else if (inPSData->getAge() <= 18) casesUnder18++;
+            if (inPSData->getGender() == 'M') numMales++;
+            else if (inPSData->getGender() == 'F') numFemales++;
+            
+            if(inPSData->getRace() != '\0' && inPSData->getRace() != ')')
+            {
+                if (inPSData->getRace() == 'W') { 
+                    racialData.addWhiteCount(1);
+                    racialData.addWhiteNHCount(1);
+                }
+                else if (inPSData->getRace() == 'A') racialData.addAsianCount(1);
+                else if (inPSData->getRace() == 'B') racialData.addBlackCount(1);
+                else if (inPSData->getRace() == 'H') racialData.addLatinxCount(1);
+                else if (inPSData->getRace() == 'N') racialData.addFirstNationCount(1);
+                else racialData.addOtherCount(1);
+                numCases++;
+            }
+        }
+}
+
+// function add data to psCombo
+void psCombo::addPSData(shared_ptr<psData> obj)
+{
+    if(obj->getSignsMIll()) {numMentalIllness = numMentalIllness + 1;}
+    if(obj->getFlee() != "Not fleeing" && obj->getFlee().length()) { fleeingCount = fleeingCount + 1; }
+    if(obj->getAge() >= 65) {casesOver65 = casesOver65 + 1;}
+    if(obj->getAge() <= 18) {casesUnder18 = casesUnder18 + 1;}
+    if (obj->getGender() == 'M') {numMales = numMales + 1;}
+    if (obj->getGender() == 'F') {numFemales = numFemales + 1;}
+    numCases = numCases + 1;
+}
+
 /* print state data - as aggregate of all incidents in this state */
 std::ostream& operator<<(std::ostream &out, const psCombo& PD) {
     out << "State Info: " << PD.printState();

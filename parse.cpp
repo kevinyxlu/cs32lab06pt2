@@ -2,6 +2,7 @@
 #include "parse.h"
 #include <algorithm>
 #include <cmath>
+#include <vector>
 
 /* helper to strip out quotes from a string */
 string stripQuotes(std::string temp) {
@@ -128,10 +129,7 @@ shared_ptr<psData> readCSVLinePolice(std::string theLine) {
 }
 
 
-std::vector<shared_ptr<regionData>> read_csv(std::string filename, typeFlag fileType) {
-    //the actual data
-    std::vector<shared_ptr<regionData>> theData;
-
+void read_csv(std::vector<shared_ptr<regionData>> pileOfData, std::string filename, typeFlag fileType) {
     // Create an input filestream
     std::ifstream myFile(filename);
 
@@ -149,10 +147,10 @@ std::vector<shared_ptr<regionData>> read_csv(std::string filename, typeFlag file
         // Now read data, line by line and create demographic dataobject
         while(std::getline(myFile, line)) {
             if (fileType == DEMOG) {
-                theData.push_back(readCSVLineDemog(line));
+                pileOfData.push_back(readCSVLineDemog(line));
             }
             else if (fileType == POLICE) {
-                theData.push_back(readCSVLinePolice(line));
+                pileOfData.push_back(readCSVLinePolice(line));
             }
             else {
                 cout << "ERROR - unknown file type" << endl;
@@ -164,7 +162,7 @@ std::vector<shared_ptr<regionData>> read_csv(std::string filename, typeFlag file
         myFile.close();
     }
 
-    return theData;
+    return;
 }
 
 

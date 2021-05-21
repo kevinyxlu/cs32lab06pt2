@@ -10,11 +10,11 @@
 // i made the blank race count as race "O" and now the other percent for MN as well as the total count is off by +1
 // this code is passing the autograder
 
-class visitorReport : public Visitor {
+class visitorReport : public Visitor, public std::enable_shared_from_this<visitorReport> {
     public:
         // only need demogCombo and psCombo
 
-        void visit(psCombo *e) override {
+        void visit(shared_ptr<psCombo> e) override {
             cout << "print aggregate police shooting data\n";
             cout << "State Info: " << e->getState() << ", total states: 1" << endl;
             cout << "Number of incidents: " << e->getNumberOfCases() << endl;
@@ -30,7 +30,7 @@ class visitorReport : public Visitor {
             cout << "% Other percent: " << e->getRacialData().getOtherPercent() << " count: " << e->getRacialData().getOtherCount() << endl;
             cout << "total Racial Demographic Count: " << e->getRacialData().getCommunityCount() << endl;
         }
-        void visit(demogData *e) override {
+        void visit(shared_ptr<demogData> e) override {
             cout << setprecision(2) << fixed;
             cout << "print summary demog Data:\n";
             cout << "Region info: comboData, " << e->getState() << endl;
@@ -40,7 +40,7 @@ class visitorReport : public Visitor {
             cout << "Total population: " << e->getPop() << endl;
             cout << e->getRaceData() << endl;
         }
-        void visit(psData *e) override {
+        void visit(shared_ptr<psData> e) override {
             cout << "IPASUBFAS\n\n";
         }
 };

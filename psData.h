@@ -14,7 +14,7 @@ using namespace std;
   class to represent police shooting data
   from CORGIS
 */
-class psData : public regionData {
+class psData : public regionData, public std::enable_shared_from_this<psData> {
   public:
     //add appropriate function paramaters to constructor once you add data
     psData(string inName, int inAge, char inGender, char inRace, string inCounty, string inState, bool inMIllness, string inFlee) : 
@@ -32,7 +32,7 @@ class psData : public regionData {
     friend std::ostream& operator<<(std::ostream &out, const psData &PD);
 
     void accept(Visitor &v){
-        v.visit(this);
+        v.visit(shared_from_this());
     }
 
 private:

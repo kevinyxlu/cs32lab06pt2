@@ -28,6 +28,39 @@ demogCombo::demogCombo(string inS, std::vector<shared_ptr<demogData>> inDemogDat
     }
 }
 
+demogCombo::demogCombo(string inS, shared_ptr<demogData> inDemogData) : demogData(inS, inS)
+{
+    numData = 1; //set number of counties to 1
+    setPop(population + inDemogData->getPop());
+    countOver65 += inDemogData->getCountOver65();
+    countUnder18 += inDemogData->getCountUnder18();
+    countUnder5 += inDemogData->getCountUnder5();
+    countBAPlus += inDemogData->getCountBAPlus();
+    countHSPlus += inDemogData->getCountHSPlus();
+    countPoverty += inDemogData->getCountPoverty();
+    raceData += inDemogData->getRaceData();
+    
+    popOver65 = (countOver65 / double(population)) * 100; 
+    popUnder18 = (countUnder18 / double(population)) * 100; 
+    popUnder5 = (countUnder5 / double(population)) * 100; 
+    popBachelorEduPlus = (countBAPlus / double(population)) * 100; 
+    popHighSchoolEduPlus = (countHSPlus / double(population)) * 100; 
+    popInPoverty = (countPoverty / double(population)) * 100; 
+}
+
+// function add more demogData and combine the two
+void demogCombo::addDemogData(shared_ptr<demogData> obj)
+{
+    numData = numData + 1;
+    countOver65 = countOver65 + obj->getCountOver65();
+    countUnder18 = countUnder18 + obj->getCountUnder18();
+    countUnder5 = countUnder5 + obj->getCountUnder5();
+    countBAPlus = countBAPlus + obj->getCountBAPlus();
+    countHSPlus = countHSPlus + obj->getCountHSPlus();
+    countPoverty = countPoverty + obj->getCountPoverty();
+}
+
+
 /* print state data - as aggregate of all the county data */
 std::ostream& operator<<(std::ostream &out, const demogCombo& ComboD) {
     out << std::setprecision(2) << std::fixed;

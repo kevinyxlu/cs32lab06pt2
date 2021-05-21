@@ -14,6 +14,10 @@ class psCombo : public regionData  {
 public:
     //write psCombo constructor
     psCombo(string inS, vector<shared_ptr<psData>> inPSData);
+    psCombo(string inS, shared_ptr<psData> inPSData);
+
+    void addPSData(shared_ptr<psData> obj);
+
     //complete these
     int getNumMentalI() const { return numMentalIllness; }
     int getFleeingCount() const { return fleeingCount; }
@@ -28,7 +32,7 @@ public:
     friend std::ostream& operator<<(std::ostream &out, const psCombo& PD);
 
     void accept(Visitor &v){
-        v.visit(this);
+        // v.visit(this);
     }
 
 protected:

@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class demogData : public regionData {
+class demogData : public regionData, public std::enable_shared_from_this<demogData> {
   public:
     demogData(string inN, string inS)
     : regionData(inN, inS), popOver65(0), popUnder18(0), popUnder5(0), popBachelorEduPlus(0), popHighSchoolEduPlus(0), popInPoverty(0) {}
@@ -31,7 +31,7 @@ class demogData : public regionData {
     friend std::ostream& operator<<(std::ostream &out, const demogData &DD);
 
     void accept(Visitor &v){
-        v.visit(this);
+        v.visit(shared_from_this());
     }
 
 protected:
