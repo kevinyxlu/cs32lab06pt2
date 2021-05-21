@@ -32,7 +32,8 @@ class demogData : public regionData, public std::enable_shared_from_this<demogDa
     double getBAup() const { return popBachelorEduPlus; }
     int getpopUnder5Count() const { return round(popUnder5 / 100 * population); }
     int getBAupCount() const { return round(popBachelorEduPlus / 100 * population); }
-    
+    int getBelowPovertyCount() const { return round(popInPoverty / 100 * population); }
+
 
     void toString(ostream& os) const {}
     friend std::ostream& operator<<(std::ostream &out, const demogData &DD);
