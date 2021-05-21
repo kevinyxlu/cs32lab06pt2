@@ -33,6 +33,12 @@ class demogCombo : public demogData {
     int getCountHSPlus() const { return countHSPlus; }
     int getCountPoverty() const { return countPoverty; }
 
+    // same getters, different names (for autograder)
+    int getBelowPovertyCount() const { return countPoverty; }
+    int getHSupCount() const { return countHSPlus; }
+    double getBelowPoverty() const { return popInPoverty; }
+    double getHSup() const { return popHighSchoolEduPlus; }
+
   friend std::ostream& operator<<(std::ostream &out, const demogCombo &SD);
 
 private:
