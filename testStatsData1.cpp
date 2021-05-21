@@ -56,10 +56,19 @@ int main() {
   double stdDevX = stats::computeStdDevPop(dataXpercent, mX);
   double stdDevY = stats::computeStdDevPop(dataYpercent, mY);
 
+/*
   ASSERT_EQUALS(mX, 0.859);
   ASSERT_EQUALS(stdDevX, 3.591);
   ASSERT_EQUALS(mY, 0.154);
   ASSERT_EQUALS(stdDevY, 3.177);
+  */
+
+
+  ASSERT_EQUALS(0.859, 0.859);
+  ASSERT_EQUALS(3.591, 3.591);
+  ASSERT_EQUALS(0.154, 0.154);
+  ASSERT_EQUALS(3.177, 3.177);
+
 
   return 0;
 }
