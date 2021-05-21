@@ -44,11 +44,11 @@ int main() {
   vector<double> dataYpercent;
   int totPop = 0;
   for (auto entry : theStates.getComboDemog()) {
-    dataYcount.push_back(entry.second->getBelowPovertyCount());
-    dataXcount.push_back(entry.second->getHSupCount());
+    dataYcount.push_back(entry.second->getCountPoverty());
+    dataXcount.push_back(entry.second->getCountHSPlus());
     totPop += entry.second->getPop(); 
-    dataYpercent.push_back(entry.second->getBelowPoverty());
-    dataXpercent.push_back(entry.second->getHSup());
+    dataYpercent.push_back(entry.second->getCountPoverty());
+    dataXpercent.push_back(entry.second->getCountHSPlus());
   }
 
   double mX = stats::computePopMean(dataXcount, totPop); 

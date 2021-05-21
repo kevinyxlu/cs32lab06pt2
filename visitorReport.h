@@ -14,6 +14,7 @@ class visitorReport : public Visitor, public std::enable_shared_from_this<visito
     public:
         // only need demogCombo and psCombo
 
+        /*
         void visit(shared_ptr<psCombo> e) override {
             cout << "print aggregate police shooting data\n";
             cout << "State Info: " << e->getState() << ", total states: 1" << endl;
@@ -30,6 +31,7 @@ class visitorReport : public Visitor, public std::enable_shared_from_this<visito
             cout << "% Other percent: " << e->getRacialData().getOtherPercent() << " count: " << e->getRacialData().getOtherCount() << endl;
             cout << "total Racial Demographic Count: " << e->getRacialData().getCommunityCount() << endl;
         }
+        */
         void visit(shared_ptr<demogData> e) override {
             cout << setprecision(2) << fixed;
             cout << "print summary demog Data:\n";
