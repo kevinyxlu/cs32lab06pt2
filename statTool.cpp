@@ -114,7 +114,7 @@ void statTool::gatherMixRaceProportionStats(visitorCombine* theAggregate, vector
         shared_ptr<psCombo> temp = theAggregate->getComboPoliceData(entry.first);
         psCombo *thePSData = temp.get();
         if ( thePSData != NULL ) {
-          double xP = (double) (((entry.second).get()->getCommunityRaceMix().*f1)())/(entry.second).get()->getPop();
+          double xP = (double) (((entry.second).get()->getRaceData().*f1)())/(entry.second).get()->getPop();
           double yP = (double) ((thePSData->getRacialData().*f2)())/thePSData->getNumberOfCases();
           if (!isnan(xP) && !isnan(yP)) {
             YPer.push_back(yP);
