@@ -129,7 +129,7 @@ shared_ptr<psData> readCSVLinePolice(std::string theLine) {
 }
 
 
-void read_csv(std::vector<shared_ptr<regionData>> pileOfData, std::string filename, typeFlag fileType) {
+void read_csv(std::vector<shared_ptr<regionData>>& pileOfData, std::string filename, typeFlag fileType) {
     // Create an input filestream
     std::ifstream myFile(filename);
 

@@ -19,8 +19,15 @@ public:
   /* call visitor pattern to create county data */
   static  void createCountyData(std::vector<shared_ptr<regionData> >& theData, Visitor& theCounties);
   
+  /*create the keyes */
+  static void createKeys(std::vector<shared_ptr<regionData>>& theData, Visitor& theKeyes);
+
+  //these could be simplified in future
   /* call visitor pattern to create aggregate data using a specific criteria */
-  static  void createKeyData(std::vector<shared_ptr<regionData> >& theData, Visitor& theAggregator);
+  static  void createKeyedDataDemog(std::vector<shared_ptr<regionData>>& theData, Visitor& theKeyed);
+
+  /* call visitor pattern to create keyed data based on keyes generated from PS criteria*/
+  static  void createKeyedDataPS(std::vector<shared_ptr<regionData>>& theData, Visitor& theKeyed);
 
   /* helper functions to fill in arrays based on funciton pointers  - on mix*/
   static void gatherCountStats(visitorCombine* theAggregate, vector<double> &XPer, vector<double> &YPer, 
@@ -39,6 +46,9 @@ public:
                                     vector<double> &XCount, vector<double> &Ycount,
                                     double (demogCombo::*f1)() const, double (demogCombo::*f2)() const,
                                     int (demogCombo::*f3)() const, int (demogCombo::*f4)() const);
+
+  static void gatherMixRaceProportionStats(visitorCombine* theAggregate, vector<double> &XPer, vector<double> &YPer, 
+                int (raceDemogData::*f1)() const, int (raceDemogData::*f2)() const);
   
   /* compute statistics for demographic data for a given region expects, 
   the region and function pointers for the methods to fill in - mix ps and demog */
@@ -55,6 +65,12 @@ public:
   the region and function pointers for the methods to fill in - two police shooting fields */
   static void computeStatsPSData(visitorCombine*  theRegions, 
                                 int (psCombo::*f1)()const, int (psCombo::*f2)() const);
+
+
+  /* compute statistics for mixed demographic data and police shooting data for racial demographics, expects 
+  the region and function pointers for the methods to fill in - note computes proportions */
+  static void computeStatsRaceProportion(visitorCombine*  theRegions, 
+                                int (raceDemogData::*f1)()const, int (raceDemogData::*f2)() const);
 
 };
 #endif

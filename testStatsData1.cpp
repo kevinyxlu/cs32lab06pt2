@@ -27,6 +27,7 @@ int main() {
    
   //read in the demographic data
   read_csv(pileOfData, "county_demographics.csv", DEMOG); 
+
   //create a visitor to combine the state data
     visitorCombineState theStates;
     //create the state demographic data
@@ -42,8 +43,8 @@ int main() {
   //compute stdDev of percent (against percent mean - adjusted in function)
   vector<double> dataXpercent;
   vector<double> dataYpercent;
-  int totPop = 0;
-  for (auto entry : theStates.getComboDemog()) {
+  int totPop = 0; // FIXME: this total population number is not right
+  for (auto entry : theStates.getComboDemog()) { 
     dataYcount.push_back(entry.second->getCountPoverty());
     dataXcount.push_back(entry.second->getCountHSPlus());
     totPop += entry.second->getPop(); 
@@ -51,24 +52,25 @@ int main() {
     dataXpercent.push_back(entry.second->getCountHSPlus());
   }
 
+  cout << totPop;
+
   double mX = stats::computePopMean(dataXcount, totPop); 
   double mY = stats::computePopMean(dataYcount, totPop); 
   double stdDevX = stats::computeStdDevPop(dataXpercent, mX);
   double stdDevY = stats::computeStdDevPop(dataYpercent, mY);
 
-/*
   ASSERT_EQUALS(mX, 0.859);
   ASSERT_EQUALS(stdDevX, 3.591);
   ASSERT_EQUALS(mY, 0.154);
   ASSERT_EQUALS(stdDevY, 3.177);
-  */
+  
 
-
+/*
   ASSERT_EQUALS(0.859, 0.859);
   ASSERT_EQUALS(3.591, 3.591);
   ASSERT_EQUALS(0.154, 0.154);
   ASSERT_EQUALS(3.177, 3.177);
-
+*/
 
   return 0;
 }

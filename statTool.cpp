@@ -14,6 +14,9 @@
 #include "visitorReport.h"
 #include "visitorCombineState.h"
 #include "visitorCombineCounty.h"
+#include "visitorCombineKeyDemog.h"
+#include "visitorCombineKeyPS.h"
+#include "visitorCreateKey.h"
 #include "stats.h"
 #include "statTool.h"
 
@@ -56,11 +59,29 @@ void statTool::createCountyData(std::vector<shared_ptr<regionData>>& theData, Vi
 }
 
 /* call visitor pattern to create key data */
-void statTool::createKeyData(std::vector<shared_ptr<regionData>>& theData, Visitor& theKeyed) {
+void statTool::createKeys(std::vector<shared_ptr<regionData>>& theData, Visitor& theKeys) {
 
    //use visitor pattern to be able to aggregate
     for (const auto &obj : theData) {
-        obj->accept((visitorCombineCounty&)theKeyed);
+        obj->accept((visitorCreateKey&)theKeys);
+    }
+}
+
+/* call visitor pattern to create keyed data based on keyes generated from deomgraphic criteria*/
+void statTool::createKeyedDataDemog(std::vector<shared_ptr<regionData>>& theData, Visitor& theKeyed) {
+
+   //use visitor pattern to be able to aggregate
+    for (const auto &obj : theData) {
+        obj->accept((visitorCombineKeyDemog&)theKeyed);
+    }
+}
+
+/* call visitor pattern to create keyed data based on keyes generated from PS criteria*/
+void statTool::createKeyedDataPS(std::vector<shared_ptr<regionData>>& theData, Visitor& theKeyed) {
+
+   //use visitor pattern to be able to aggregate
+    for (const auto &obj : theData) {
+        obj->accept((visitorCombineKeyPS&)theKeyed);
     }
 }
 
@@ -82,6 +103,27 @@ void statTool::gatherCountStats(visitorCombine* theAggregate, vector<double> &XP
         }
     }
 }
+
+/* helper functions to fill in arrays based on funciton pointers  */
+
+void statTool::gatherMixRaceProportionStats(visitorCombine* theAggregate, vector<double> &XPer, vector<double> &YPer, 
+                int (raceDemogData::*f1)() const, int (raceDemogData::*f2)() const) {
+    //for all  data
+    for (auto entry : theAggregate->getComboDemog()) {
+        //make sure there is valid police shooting data!
+        shared_ptr<psCombo> temp = theAggregate->getComboPoliceData(entry.first);
+        psCombo *thePSData = temp.get();
+        if ( thePSData != NULL ) {
+          double xP = (double) (((entry.second).get()->getCommunityRaceMix().*f1)())/(entry.second).get()->getPop();
+          double yP = (double) ((thePSData->getRacialData().*f2)())/thePSData->getNumberOfCases();
+          if (!isnan(xP) && !isnan(yP)) {
+            YPer.push_back(yP);
+            XPer.push_back(xP);
+          }
+      }
+    }
+}
+
 
 /* helper functions to fill in arrays based on funciton pointers  - on police hsooting only*/
 void statTool::gatherCountStats(visitorCombine* theAggregate, vector<double> &XPer, vector<double> &YPer, 
@@ -215,6 +257,28 @@ void statTool::computeStatsPSData(visitorCombine*  theRegions,
     cout << "Correlation Coeff (sample): " <<stats::computeCorCoeffSample(dataX, dataY)<< endl;
 
    writeToCSV(dataX, dataY, "PSCounts.csv");
+}
+
+  /* compute statistics for mixed demographic data and police shooting data for racial demographics, expects 
+  the region and function pointers for the methods to fill in - note computes proportions */
+void statTool::computeStatsRaceProportion(visitorCombine*  theRegions, 
+                                int (raceDemogData::*f1)()const, int (raceDemogData::*f2)() const) {
+
+    vector<double> dataX;
+    vector<double> dataY;
+
+    gatherMixRaceProportionStats(theRegions, dataX, dataY, f1, f2);
+
+    double mX = stats::computeMean(dataX); 
+    double mY = stats::computeMean(dataY);  
+    cout << "REGION stats comparing demographic data proportions to police shooting data proportions " << endl;
+    cout << "demog stats mean X: " << mX    << " size of vector: " << dataX.size() << endl;
+    cout << "ps stats mean Y: " << mY << " size of vector: " << dataY.size() << endl;
+
+    cout << "demog std dev mean X: " << stats::computeStdDevSample(dataX) << endl;
+    cout << "ps std dev mean Y: " << stats::computeStdDevSample(dataY) << endl;
+
+   writeToCSV(dataX, dataY, "Proportions.csv");
 }
 
 
