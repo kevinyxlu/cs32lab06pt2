@@ -58,6 +58,7 @@ void demogCombo::addDemogData(shared_ptr<demogData> obj)
     countBAPlus = countBAPlus + obj->getCountBAPlus();
     countHSPlus = countHSPlus + obj->getCountHSPlus();
     countPoverty = countPoverty + obj->getCountPoverty();
+    population = population + obj->getPop();
 }
 
 

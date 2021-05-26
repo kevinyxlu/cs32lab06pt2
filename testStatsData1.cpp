@@ -48,11 +48,11 @@ int main() {
     dataYcount.push_back(entry.second->getCountPoverty());
     dataXcount.push_back(entry.second->getCountHSPlus());
     totPop += entry.second->getPop(); 
-    dataYpercent.push_back(entry.second->getCountPoverty());
-    dataXpercent.push_back(entry.second->getCountHSPlus());
+    dataYpercent.push_back(entry.second->getBelowPoverty());
+    dataXpercent.push_back(entry.second->getPopHSPlus());
   }
 
-  cout << totPop;
+ // cout << totPop; // for debugging
 
   double mX = stats::computePopMean(dataXcount, totPop); 
   double mY = stats::computePopMean(dataYcount, totPop); 
